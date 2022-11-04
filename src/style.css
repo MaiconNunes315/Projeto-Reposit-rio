@@ -1,0 +1,16 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body{
+    background-color: #22212C; 
+    color:#837E9F;     
+}
+
+.card{
+    background-color:#302F3D;
+}
+
+.techs{
+    background-color:#CB92B1;
+}
