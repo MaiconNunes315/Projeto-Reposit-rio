@@ -25,7 +25,7 @@ export function Experience(){
                     <p className="font-light leading-3 text-xs">2017 - 2020</p>
                     <p className="font-light leading-3 text-xs"> Motorista</p>
 
-                    <li className="list-disc font-bold text-sm mt-5">
+                    <li className="list-disc font-bold text-sm mt-5" translate="no">
                         Mk details estética automotiva
                     </li>
                     <p className="font-light leading-3 text-xs">2020 - atualmente</p>

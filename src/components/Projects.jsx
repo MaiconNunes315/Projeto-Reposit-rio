@@ -1,6 +1,5 @@
-import {CaretDown, Folder, Star } from "phosphor-react";
+import {ArrowDown, CaretDown, Folder, Star } from "phosphor-react";
 import { useEffect, useState } from "react";
-
 import axios from "axios";
 
 
@@ -9,25 +8,44 @@ export function Projects(){
 
     const [repositories, setRepositories] = useState([])
     const [display, setDisplay] = useState("block")
+    const [languages, setLanguages] = useState({})
+    const [repositoriesLenght, setRepositoreisLenght] = useState(10)
+    const [disable, setdisable] = useState(false)
+    
+    let instance = axios.create({
+        baseURL: "https://api.github.com",
+    })
     
     useEffect(()=>{
       
         (async()=>{
 
-        const urlRepo = axios.get("https://api.github.com/users/maiconnunes315/repos",{
-            headers: {
-                Authorization: `token ${process.env.REACT_APP_TOKEN}`
-              }
+            const urlRepo = instance.get(`users/maiconnunes315/repos?per_page=${repositoriesLenght}&page=${1}`, {
+                headers: {
+                    "Authorization": `Bearer ${process.env.REACT_APP_TOKEN}`,
+                   
+                  }
         })
-
+            
         const res = await urlRepo
         const data = res.data
         setRepositories(data)        
        })()
         
-    },[display])
+    }, [display, repositoriesLenght])
+    
+    console.log(repositories)
+    
+    function handleDisable() {
+        setRepositoreisLenght(repositoriesLenght + 10)
 
-    return(
+    if (repositoriesLenght >= repositories.length) {
+        setdisable(true) 
+}
+    }
+    
+    return (
+        <div className="text-center">
         <div className="sm:w-[90%] w-[22rem] drop-shadow-xl  m-10 flex flex-wrap gap-2 justify-center ">
 
         <div className="h-20 card rounded-3xl w-full">
@@ -52,7 +70,7 @@ export function Projects(){
     <div className="flex ml-5 mt-5 gap-2 items-center   ">
         <Folder className="w-[20px] h-[20px] " />
         <a href={repo.clone_url} target="_blanck" >
-            <h2 className="font-bold text-base">{repo.name}</h2>
+            <h2 className="font-bold text-base" translate="no">{repo.name}</h2>
         </a>
         </div>
 
@@ -66,15 +84,19 @@ export function Projects(){
 
         <div className="flex gap-2 mr-5 items-center">
             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#e7de79" viewBox="0 0 256 256"><rect width="20" height="20" fill="none"></rect><circle cx="128" cy="128" r="96" opacity="0.9"></circle><circle cx="128" cy="128" r="96" fill="none" stroke="#837E9F"></circle></svg>
-            <span>{repo.language}</span>
+                        <span>{repo.language}</span>
         </div>
     </div>
 </div>
 
 
         ))}
-
+           
        
-        </div>
+            </div>
+            <button disabled={disable} className="mb-5 hover:border-2 rounded-full border-red-600 disabled:opacity-30 " onClick={handleDisable}>
+<ArrowDown size={16} color="red" weight="duotone" />
+</button>
+            </div>
    )
 }
