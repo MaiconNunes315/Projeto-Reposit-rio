@@ -8,12 +8,11 @@ export function Projects(){
 
     const [repositories, setRepositories] = useState([])
     const [display, setDisplay] = useState("block")
-    const [languages, setLanguages] = useState({})
     const [repositoriesLenght, setRepositoreisLenght] = useState(10)
     const [disable, setdisable] = useState(false)
     
     let instance = axios.create({
-        baseURL: "https://api.github.com",
+        baseURL: "https://api.github.com"
     })
     
     useEffect(()=>{
@@ -21,10 +20,7 @@ export function Projects(){
         (async()=>{
 
             const urlRepo = instance.get(`users/maiconnunes315/repos?per_page=${repositoriesLenght}&page=${1}`, {
-                headers: {
-                    "Authorization": `Bearer ${process.env.REACT_APP_TOKEN}`,
-                   
-                  }
+               
         })
             
         const res = await urlRepo
@@ -32,9 +28,10 @@ export function Projects(){
         setRepositories(data)        
        })()
         
-    }, [display, repositoriesLenght])
+    }, [])
     
-    console.log(repositories)
+    
+    
     
     function handleDisable() {
         setRepositoreisLenght(repositoriesLenght + 10)
@@ -81,9 +78,10 @@ export function Projects(){
             <Star className="w-5" />
             <span>{repo.watchers}</span>
         </div>
-
+         
         <div className="flex gap-2 mr-5 items-center">
             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#e7de79" viewBox="0 0 256 256"><rect width="20" height="20" fill="none"></rect><circle cx="128" cy="128" r="96" opacity="0.9"></circle><circle cx="128" cy="128" r="96" fill="none" stroke="#837E9F"></circle></svg>
+                
                         <span>{repo.language}</span>
         </div>
     </div>
